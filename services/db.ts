@@ -64,6 +64,14 @@ const messages: Message[] = [
     read: false,
     conversationId: "1",
   },
+  {
+    id: "7",
+    content: "Great",
+    timestamp: new Date(),
+    sender: "1",
+    read: false,
+    conversationId: "1",
+  },
 ];
 
 const conversations: Conversation[] = [
@@ -79,7 +87,7 @@ export const getConversations = async (uid: string) => {
 };
 
 export const getMessages = async (conversationId: string) => {
-  return messages.filter((m) => m.conversationId == conversationId);
+  return messages.filter((m) => m.conversationId == conversationId).reverse();
 };
 
 export const getUser = async (uid: string) => {
