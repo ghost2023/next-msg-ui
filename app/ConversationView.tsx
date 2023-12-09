@@ -54,7 +54,6 @@ export default function ConversationView({ conversation }: Props) {
     if (editMessage) {
       // TODO: edit message
     } else {
-      // TODO: normal message
       console.log({
         sender: currentUser.id,
         id: Date.now().toString(),
@@ -115,7 +114,7 @@ export default function ConversationView({ conversation }: Props) {
                 onDelete={() => {
                   delMutation.mutate(msg.id);
                 }}
-                replyTo={data.find((m) => m.id == m.replyTo)}
+                replyTo={data.find((m) => m.id == msg.replyTo)}
               />
             ))
           ) : (

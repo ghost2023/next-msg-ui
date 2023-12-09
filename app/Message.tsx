@@ -1,9 +1,9 @@
 "use client";
 
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import { currentUser } from "@/services/db";
 import { Message } from "@/services/types";
@@ -58,7 +58,7 @@ const MessageCard: React.FC<Props> = ({
             }`}
           >
             {replyTo && (
-              <div className="text-neutral-300 font-medium">
+              <div className="text-neutral-300 font-medium border-l-2 border-l-black p-2 text-sm rounded-lg bg-neutral-800/90">
                 {replyTo.content}
               </div>
             )}
