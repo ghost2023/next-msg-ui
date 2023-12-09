@@ -98,8 +98,14 @@ export const deleteMessage = async (messageId: string) => {
   );
 };
 
-export const editMessage = async (message: Message) => {
-  messages[messages.findIndex((m) => m.id == message.id)] = message;
+export const editMessage = async ({
+  msgId,
+  content,
+}: {
+  msgId: string;
+  content: string;
+}) => {
+  messages.map((m) => (m.id == msgId ? { ...m, content } : m));
 };
 
 export const pinMessage = async (conversationId: string, messageId: string) => {

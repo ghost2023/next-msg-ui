@@ -3,6 +3,7 @@
 import {
   currentUser,
   deleteMessage,
+  editMessage,
   getMessages,
   sendMessage,
 } from "@/services/db";
@@ -22,7 +23,7 @@ export default function ConversationView({ conversation }: Props) {
     queryFn: () => getMessages(conversation.id),
   });
   const queryClient = useQueryClient();
-  const [editMessage, setEditMessage] = useState<string>();
+  const [edittingMessage, setEditMessage] = useState<string>();
   const [replyMessage, setReplyMessage] = useState<string>();
   const [msgContent, setMsgContent] = useState("");
   const sendMutation = useMutation({
@@ -47,22 +48,27 @@ export default function ConversationView({ conversation }: Props) {
       );
     },
   });
+  const editMutation = useMutation({
+    mutationFn: editMessage,
+    onSuccess: (_, variables) => {
+      queryClient.setQueryData(
+        ["messages", conversation.id],
+        (data ?? []).map((m) =>
+          m.id != variables.msgId ? m : { ...m, content: variables.content },
+        ),
+      );
+    },
+  });
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    if (editMessage) {
-      // TODO: edit message
-    } else {
-      console.log({
-        sender: currentUser.id,
-        id: Date.now().toString(),
-        read: false,
-        timestamp: new Date(),
-        replyTo: replyMessage,
+    if (edittingMessage) {
+      editMutation.mutate({
+        msgId: edittingMessage,
         content: msgContent,
-        conversationId: conversation.id,
       });
+    } else {
       sendMutation.mutate({
         sender: currentUser.id,
         id: Date.now().toString(),
@@ -109,7 +115,10 @@ export default function ConversationView({ conversation }: Props) {
                 key={msg.id}
                 message={msg}
                 onReply={() => setReplyMessage(msg.id)}
-                onEdit={() => {}}
+                onEdit={() => {
+                  setEditMessage(msg.id);
+                  setMsgContent(msg.content);
+                }}
                 onPin={() => {}}
                 onDelete={() => {
                   delMutation.mutate(msg.id);
@@ -128,7 +137,7 @@ export default function ConversationView({ conversation }: Props) {
         handleSubmit={handleSubmit}
         msgContent={msgContent}
         setMsgContent={setMsgContent}
-        editing={data?.find((m) => m.id == editMessage)}
+        editing={data?.find((m) => m.id == edittingMessage)}
         replyingTo={data?.find((m) => m.id == replyMessage)}
         onCancel={() => {
           setEditMessage(undefined);
