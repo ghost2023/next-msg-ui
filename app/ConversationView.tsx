@@ -5,6 +5,7 @@ import {
   deleteMessage,
   editMessage,
   getMessages,
+  pinMessage,
   sendMessage,
 } from "@/services/db";
 import { Conversation } from "@/services/types";

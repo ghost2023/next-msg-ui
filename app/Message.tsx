@@ -73,18 +73,18 @@ const MessageCard: React.FC<Props> = ({
           >
             <FaReply size={16} />
           </button>
-          <Popover onOpenChange={setIsOpen}>
-            <PopoverTrigger>
-              <button
-                className={` ${
-                  isOpen ? "" : "hidden"
-                } group-hover:flex p-3 text-neutral-300 hover:bg-stone-800 rounded-full aspect-square`}
-              >
-                <BsThreeDots size={16} />
-              </button>
-            </PopoverTrigger>
-            <PopoverContent className="bg-neutral-950 text-neutral-300 flex flex-col p-1 max-w-[160px] border-neutral-700">
-              {currentUser.id == message.sender ? (
+          {currentUser.id == message.sender ? (
+            <Popover onOpenChange={setIsOpen}>
+              <PopoverTrigger>
+                <button
+                  className={` ${
+                    isOpen ? "" : "hidden"
+                  } group-hover:flex p-3 text-neutral-300 hover:bg-stone-800 rounded-full aspect-square`}
+                >
+                  <BsThreeDots size={16} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="bg-neutral-950 text-neutral-300 flex flex-col p-1 max-w-[160px] border-neutral-700">
                 <>
                   <button
                     onClick={onEdit}
@@ -99,15 +99,9 @@ const MessageCard: React.FC<Props> = ({
                     Delete
                   </button>
                 </>
-              ) : null}
-              <button
-                onClick={onPin}
-                className="rounded hover:bg-neutral-900 text-start p-2"
-              >
-                Pin
-              </button>
-            </PopoverContent>
-          </Popover>
+              </PopoverContent>
+            </Popover>
+          ) : null}
         </div>
         <span className="text-neutral-300/75 text-xs font-medium">
           {format(message.timestamp, "p PP")}
