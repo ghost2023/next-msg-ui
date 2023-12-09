@@ -33,7 +33,7 @@ const messages: Message[] = [
     conversationId: "1",
   },
   {
-    id: "1",
+    id: "3",
     content: "How are you?",
     timestamp: new Date(),
     sender: "1",
@@ -41,7 +41,7 @@ const messages: Message[] = [
     conversationId: "1",
   },
   {
-    id: "2",
+    id: "4",
     content: "I am good",
     timestamp: new Date(),
     sender: "2",
@@ -49,7 +49,7 @@ const messages: Message[] = [
     conversationId: "1",
   },
   {
-    id: "1",
+    id: "5",
     content: "What about you?",
     timestamp: new Date(),
     sender: "1",
@@ -57,7 +57,7 @@ const messages: Message[] = [
     conversationId: "1",
   },
   {
-    id: "2",
+    id: "6",
     content: "I am also good",
     timestamp: new Date(),
     sender: "2",
@@ -91,9 +91,10 @@ export const sendMessage = async (message: Message) => {
 };
 
 export const deleteMessage = async (messageId: string) => {
-  messages.splice(
-    messages.findIndex((m) => m.id == messageId),
-    1,
+  messages.map((m) =>
+    m.id != messageId
+      ? m
+      : { ...m, isDeleted: true, content: "Deleted Message" },
   );
 };
 
