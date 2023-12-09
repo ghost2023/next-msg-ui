@@ -4,12 +4,16 @@ export const users: User[] = [
   {
     id: "1",
     name: "Jane Doe",
+    lastOnline: new Date(),
   },
   {
     id: "2",
     name: "John Doe",
+    lastOnline: new Date(),
   },
 ];
+
+export const currentUser = users[0];
 
 const messages: Message[] = [
   {

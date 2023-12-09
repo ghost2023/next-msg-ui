@@ -5,11 +5,13 @@ export type Message = {
   sender: string; // user id
   read: boolean; // whether the message has been read
   conversationId: string; // the pk of the conversation
+  isDeleted?: boolean;
 };
 
 export type User = {
   id: string;
   name: string;
+  lastOnline: Date;
 };
 
 export type Conversation = {
