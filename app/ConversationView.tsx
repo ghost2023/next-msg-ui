@@ -1,11 +1,11 @@
 "use client";
 
 import {
-  currentUser,
-  deleteMessage,
-  editMessage,
-  getMessages,
-  sendMessage,
+    currentUser,
+    deleteMessage,
+    editMessage,
+    getMessages,
+    sendMessage,
 } from "@/services/db";
 import { Conversation } from "@/services/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -65,10 +65,6 @@ export default function ConversationView({ conversation }: Props) {
   useEffect(() => {
     // Scroll to the bottom when the component mounts
     if (scrollContainerRef.current) {
-      console.log(
-        scrollContainerRef.current,
-        scrollContainerRef.current.scrollHeight,
-      );
       scrollContainerRef.current.scrollTop =
         scrollContainerRef.current.scrollHeight;
     }
