@@ -6,6 +6,7 @@ export type Message = {
   read: boolean; // whether the message has been read
   conversationId: string; // the pk of the conversation
   isDeleted?: boolean;
+  replyTo?: string // id of the reply
 };
 
 export type User = {
