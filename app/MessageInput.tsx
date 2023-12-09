@@ -48,7 +48,7 @@ export default function MessageInput({
           placeholder="Type a message"
           value={msgContent}
           onChange={(e) => setMsgContent(e.target.value)}
-          className={`text-neutral-500 break-words h-12 focus:h-auto min-h-[32px] placeholder:opacity-60 w-full focus-visible:outline-none before:opacity-60 py-2 my-1 text-xl bg-transparent font-medium  resize-none`}
+          className={`text-neutral-300 break-words h-12 focus:h-auto min-h-[32px] placeholder:opacity-60 w-full focus-visible:outline-none before:opacity-60 py-2 my-1 text-xl bg-transparent font-medium  resize-none`}
         />
         <button className="text-neutral-300 font-medium bg-blue-800 rounded-full p-3">
           <PiPaperPlaneTiltBold size={18} />
