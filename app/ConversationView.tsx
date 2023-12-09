@@ -5,12 +5,11 @@ import {
   deleteMessage,
   editMessage,
   getMessages,
-  pinMessage,
   sendMessage,
 } from "@/services/db";
 import { Conversation } from "@/services/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import MessageCard from "./Message";
 import MessageInput from "./MessageInput";
 
@@ -27,12 +26,14 @@ export default function ConversationView({ conversation }: Props) {
   const [edittingMessage, setEditMessage] = useState<string>();
   const [replyMessage, setReplyMessage] = useState<string>();
   const [msgContent, setMsgContent] = useState("");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
   const sendMutation = useMutation({
     mutationFn: sendMessage,
     onSuccess: (_, variables) => {
       queryClient.setQueryData(
         ["messages", conversation.id],
-        [...(data ?? []), variables],
+        [variables, ...(data ?? [])],
       );
     },
   });
@@ -60,6 +61,18 @@ export default function ConversationView({ conversation }: Props) {
       );
     },
   });
+
+  useEffect(() => {
+    // Scroll to the bottom when the component mounts
+    if (scrollContainerRef.current) {
+      console.log(
+        scrollContainerRef.current,
+        scrollContainerRef.current.scrollHeight,
+      );
+      scrollContainerRef.current.scrollTop =
+        scrollContainerRef.current.scrollHeight;
+    }
+  }, [status]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -108,8 +121,11 @@ export default function ConversationView({ conversation }: Props) {
       </div>
 
       {/* the messages list */}
-      <div className="grow h-full overflow-y-auto min-h-[0] w-full">
-        <div className="w-full flex flex-col py-3">
+      <div
+        className="grow h-full overflow-y-auto min-h-[0] w-full"
+        ref={scrollContainerRef}
+      >
+        <div className="w-full flex flex-col-reverse py-3">
           {status == "success" ? (
             data.map((msg) => (
               <MessageCard
