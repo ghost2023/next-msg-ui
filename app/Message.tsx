@@ -1,9 +1,9 @@
 "use client";
 
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import { currentUser } from "@/services/db";
 import { Message } from "@/services/types";
@@ -42,7 +42,7 @@ const MessageCard: React.FC<Props> = ({
       }`}
     >
       {message.sender != currentUser.id && (
-        <div className="w-12 h-12 mx-2 rounded-full overflow-hidden bg-sky-400"></div>
+        <div className="w-10 h-10 hidden sm:block mx-2 rounded-full overflow-hidden bg-sky-400"></div>
       )}
       <div>
         <div
@@ -76,13 +76,14 @@ const MessageCard: React.FC<Props> = ({
           {currentUser.id == message.sender ? (
             <Popover onOpenChange={setIsOpen}>
               <PopoverTrigger>
-              <div
-                className={` ${
-                  isOpen ? "" : "hidden"
-                } group-hover:flex p-3 text-neutral-300 hover:bg-stone-800 rounded-full aspect-square`}
-              >
-                <BsThreeDots size={16} />
-              </div></PopoverTrigger>
+                <div
+                  className={` ${
+                    isOpen ? "" : "hidden"
+                  } group-hover:flex p-3 text-neutral-300 hover:bg-stone-800 rounded-full aspect-square`}
+                >
+                  <BsThreeDots size={16} />
+                </div>
+              </PopoverTrigger>
               <PopoverContent className="bg-neutral-950 text-neutral-300 flex flex-col p-1 max-w-[160px] border-neutral-700">
                 <>
                   <button

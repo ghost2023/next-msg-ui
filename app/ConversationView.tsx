@@ -1,11 +1,11 @@
 "use client";
 
 import {
-    currentUser,
-    deleteMessage,
-    editMessage,
-    getMessages,
-    sendMessage,
+  currentUser,
+  deleteMessage,
+  editMessage,
+  getMessages,
+  sendMessage,
 } from "@/services/db";
 import { Conversation } from "@/services/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -95,7 +95,7 @@ export default function ConversationView({ conversation }: Props) {
   };
 
   return (
-    <div className="bg-neutral-950 flex grow flex-col items-center w-full my-2 rounded-2xl border border-neutral-700 border-solid max-w-screen-md mx-3 md:mx-auto h-full max-h-[90vh]">
+    <div className="bg-neutral-950 flex grow flex-col items-center w-full rounded-t-2xl border border-neutral-700 border-solid max-w-screen-md md:mx-3 max-h-[calc(100vh-32px)]">
       {/* the top bar */}
       <div className="flex w-full max-w-full items-center justify-between px-6  border-b-neutral-700 border-b">
         <div className="flex flex-col justify-center py-2 gap-1">
