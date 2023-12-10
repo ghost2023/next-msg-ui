@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -38,6 +37,11 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+  },
+
+  daisyui: {
+    themes: false,
+    base: false,
   },
 
   plugins: [require("tailwindcss-animate"), require("daisyui")],
