@@ -24,10 +24,10 @@ async function Page({
 
   return (
     <div className="self-stretch flex w-full flex-col mt-10 px-14 max-md:max-w-full max-md:mt-10 max-md:px-5">
-      <div className="text-white text-4xl font-medium whitespace-nowrap ml-3.5 self-start max-md:max-w-full max-md:text-4xl">
+      <div className="text-white text-4xl font-medium whitespace-nowrap self-start max-md:max-w-full max-md:text-4xl">
         Challenge History
       </div>
-      <div className="text-neutral-300 text-lg font-medium whitespace-nowrap ml-3.5 mt-4 self-start max-md:max-w-full">
+      <div className="text-neutral-300 mb-7 font-medium whitespace-nowrap mt-2 self-start max-md:max-w-full">
         Challenges list of winners,
       </div>
       <div className="flex flex-col gap-4">
