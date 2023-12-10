@@ -11,6 +11,21 @@ export const users: User[] = [
     name: "John Doe",
     lastOnline: new Date(),
   },
+  {
+    id: "3",
+    name: "Jim Doe",
+    lastOnline: new Date(),
+  },
+  {
+    id: "4",
+    name: "Jill Doe",
+    lastOnline: new Date(),
+  },
+  {
+    id: "5",
+    name: "Jack Doe",
+    lastOnline: new Date(),
+  },
 ];
 
 export const currentUser = users[0];
@@ -77,8 +92,20 @@ const messages: Message[] = [
 const conversations: Conversation[] = [
   {
     id: "1",
-    participants: users,
+    participants: [users[0], users[1]],
     pinned: "1",
+  },
+  {
+    id: "2",
+    participants: [users[0], users[2]],
+  },
+  {
+    id: "3",
+    participants: [users[0], users[3]],
+  },
+  {
+    id: "4",
+    participants: [users[0], users[4]],
   },
 ];
 
