@@ -1,4 +1,4 @@
-import { Conversation, Message, User } from "./types";
+import { Challenge, Conversation, Message, User } from "./types";
 
 export const users: User[] = [
   {
@@ -147,3 +147,84 @@ export const pinMessage = async (conversationId: string, messageId: string) => {
   conversations[conversations.findIndex((c) => c.id == conversationId)].pinned =
     messageId;
 };
+
+const challenges: Challenge[] = [
+  {
+    id: "1",
+    name: "Challenge 1",
+    timestamp: new Date(),
+    description: "Challenge 1 description",
+    sponsorNum: 10,
+    totalEarned: 100,
+    timeTaken: 10,
+    author: {
+      id: "1",
+      name: "Jane Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    id: "2",
+    name: "Challenge 2",
+    timestamp: new Date(),
+    description: "Challenge 2 description",
+    sponsorNum: 20,
+    totalEarned: 200,
+    timeTaken: 20,
+    author: {
+      id: "2",
+      name: "John Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    id: "3",
+    name: "Challenge 3",
+    timestamp: new Date(),
+    description: "Challenge 3 description",
+    sponsorNum: 30,
+    totalEarned: 300,
+    timeTaken: 30,
+    author: {
+      id: "3",
+      name: "Jack Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    id: "4",
+    name: "Challenge 4",
+    timestamp: new Date(),
+    description: "Challenge 4 description",
+    sponsorNum: 40,
+    totalEarned: 400,
+    timeTaken: 40,
+    author: {
+      id: "4",
+      name: "Jill Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    id: "5",
+    name: "Challenge 5",
+    timestamp: new Date(),
+    description: "Challenge 5 description",
+    sponsorNum: 50,
+    totalEarned: 500,
+    timeTaken: 50,
+    author: {
+      id: "5",
+      name: "Jim Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+];
+
+export function getChallengeHistory(): Promise<Challenge[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(challenges);
+    }, 1000);
+  });
+}

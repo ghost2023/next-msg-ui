@@ -6,7 +6,7 @@ export type Message = {
   read: boolean; // whether the message has been read
   conversationId: string; // the pk of the conversation
   isDeleted?: boolean;
-  replyTo?: string // id of the reply
+  replyTo?: string; // id of the reply
 };
 
 export type User = {
@@ -19,4 +19,19 @@ export type Conversation = {
   id: string;
   participants: User[];
   pinned?: string;
+};
+
+export type Challenge = {
+  id: string;
+  name: string;
+  timestamp: Date;
+  description: string;
+  sponsorNum: number;
+  totalEarned: number;
+  timeTaken: number; // in min
+  author: {
+    id: string;
+    name: string;
+    avatar: string;
+  };
 };
