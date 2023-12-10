@@ -1,0 +1,219 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String           @id @unique @default(cuid())
+  user_name      String           @unique
+  email          String           @unique
+  wallet_address String           @unique
+  email_verified Boolean          @default(false)
+  image          String?
+  account        Account          @relation(fields: [accountId], references: [id])
+  accountId      String
+  AuditorProfile AuditorProfile[]
+  Hack_or_Fund   Hack_or_Fund[]
+  Audit_Battles  Audit_Battles[]
+  Hack_Me        Hack_Me[]
+  AC_Disputes    AC_Disputes[]
+  Activity       Activity[]
+  Dispute        Dispute[]
+}
+
+model Account {
+  id                   String  @id @default(cuid())
+  social_id            String
+  type                 String
+  provider             String
+  providerAccountId    String
+  refresh_token        String? @db.Text
+  access_token         String? @db.Text
+  expires_at           Int?
+  token_type           String?
+  scope                String?
+  id_token             String? @db.Text
+  refresh_token_expire String?
+  User                 User[]
+
+  @@unique([provider, providerAccountId])
+}
+
+model AuditorProfile {
+  user               User           @relation(fields: [userId], references: [id])
+  userId             String         @id
+  skill_n_expertise  String[]
+  certification_info String
+  rating             Int
+  Audit_history      AuditHistory[]
+}
+
+model AuditHistory {
+  id                   String         @id @default(cuid())
+  auditor              AuditorProfile @relation(fields: [auditorProfileUserId], references: [userId])
+  client               String // idk this
+  auditorProfileUserId String
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  status      ProjectStatus
+  // messages
+}
+
+enum ProjectStatus {
+  ongoing
+  completed
+  dispute_opened
+  delivered
+}
+
+model Challenge {
+  id                 String          @id @default(cuid())
+  title              String
+  description        String
+  no_of_participants Int
+  status             ChallengeStatus
+  difficulty         Difficulty
+  tags               String[]
+  date_created       DateTime        @default(now())
+  code               String
+  start_time         DateTime
+  end_time           DateTime
+  Hack_or_Fund       Hack_or_Fund[]
+}
+
+enum ChallengeStatus {
+  active
+  ongoing
+  onqueue
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
+  insane
+}
+
+model Hack_or_Fund {
+  id                     String    @id @default(cuid())
+  no_of_participants     Int
+  winner                 User?     @relation(fields: [userId], references: [id])
+  won_amount             Int
+  no_of_sponsors         Int
+  total_earn_of_sponsors Int
+  total_amount_lost      Int
+  challenge              Challenge @relation(fields: [challengeId], references: [id])
+  userId                 String?
+  challengeId            String
+}
+
+model Audit_Battles {
+  id               String  @id @default(cuid())
+  winner           User?   @relation(fields: [userId], references: [id])
+  total_commitment Int
+  total_loss       Int
+  amount_won       Int
+  userId           String?
+}
+
+model Hack_Me {
+  id                String   @id @default(cuid())
+  challenge_host    User     @relation(fields: [userId], references: [id])
+  tip_host_received Int
+  winner            User?    @relation(fields: [userId], references: [id])
+  dispute           Dispute? @relation(fields: [disputeId], references: [id])
+  userId            String?
+  disputeId         String?
+}
+
+model AC_Disputes {
+  id             String            @id @default(cuid())
+  status         AC_Dispute_Status
+  who_won        User              @relation(fields: [userId], references: [id])
+  dispute_reason String
+  created_at     DateTime          @default(now())
+  ended_at       DateTime
+  userId         String
+}
+
+enum AC_Dispute_Status {
+  opened
+  closed
+}
+
+model Contest {
+  id                   String                @id @default(cuid())
+  week_no              Int
+  title                String
+  description          String
+  participation_status Participation_Status?
+  active               Activity
+  codebase             String
+  created_at           DateTime              @default(now())
+  ended_at             DateTime
+  Vulnerability        Vulnerability[]
+}
+
+enum Participation_Status {
+  active
+  completed
+}
+
+model Activity {
+  id                     String        @id @default(cuid())
+  contest                Contest       @relation(fields: [contestId], references: [id])
+  user                   User          @relation(fields: [userId], references: [id])
+  total_won              Int
+  amount_auditor_earned  Int
+  reputation_change      Int
+  total_Sponsored_amount Int
+  diputes                Dispute[]
+  payment_amount         Int
+  vulnerability          Vulnerability @relation(fields: [vulnerabilityId], references: [id])
+  contestId              String
+  userId                 String
+  vulnerabilityId        String
+}
+
+model Vulnerability {
+  id                  String  @id @default(cuid())
+  contest             Contest @relation(fields: [contestId], references: [id])
+  reported_bug_detail String
+  severity_level      Int
+
+  reported_at   DateTime   @default(now())
+  solution_code String
+  tags          String[]
+  Activity      Activity[]
+  contestId     String
+}
+
+model Dispute {
+  id               String         @id @default(cuid())
+  activity         Activity       @relation(fields: [activityId], references: [id])
+  dispute_reason   String
+  dispute_messages String[]
+  status           Dispute_Status
+  who_won          User           @relation(fields: [userId], references: [id])
+  created_at       DateTime       @default(now())
+  ended_at         DateTime
+  Hack_Me          Hack_Me[]
+  activityId       String
+  userId           String
+}
+
+enum Dispute_Status {
+  pending
+  completed
+}
