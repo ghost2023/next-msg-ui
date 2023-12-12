@@ -121,11 +121,11 @@ model Challenge {
   codebase              String
   start_time            DateTime?
   end_time              DateTime?
-  duration              DateTime
-  amount                String
+  duration              Int
+  amount                Int
   challengeType         String
   chain                 String
-  contactAddress        String?
+  // contactAddress        String?
 
   creator   User   @relation(fields: [creatorId], references: [id])
   creatorId String
