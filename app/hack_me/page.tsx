@@ -20,9 +20,34 @@ function Page() {
   const duration = hrs * 3600 + min * 60 + sec; // in seconds
   const [address, setAddress] = useState("");
   const [file, setFile] = useState<File>();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!file) return;
+    setLoading(true);
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("description", desc);
+    formData.append("unlockAmount", unlockAmount.toString());
+    formData.append("awardAmount", award.toString());
+    formData.append("type", type);
+    formData.append("address", address);
+    formData.append("chain", chain);
+    formData.append("duration", duration.toString());
+
+    formData.set("file", file);
+
+    try {
+      const res = await fetch(`/api/hack-me`, {
+        method: "POST",
+        body: formData,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -163,12 +188,13 @@ function Page() {
             duration < 600 ||
             !award ||
             !address ||
-            !unlockAmount
+            !unlockAmount ||
+            loading
           }
           onClick={handleSubmit}
         >
-          <IoGitBranchOutline className="w-5 h-5 text-primary" /> Submit your
-          challenge
+          <IoGitBranchOutline className="w-5 h-5 text-primary" />{" "}
+          {loading ? "Submitting..." : "Submit your challenge"}
         </button>
       </div>
     </section>
