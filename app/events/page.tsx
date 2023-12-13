@@ -6,6 +6,7 @@ import { LuMessagesSquare } from "react-icons/lu";
 import { PiHourglassLight } from "react-icons/pi";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { TbZodiacGemini } from "react-icons/tb";
+import Countdown from "./Countdown";
 
 type Event = {
   name: string;
@@ -153,20 +154,7 @@ const Page = () => {
             <Card key={i} event={c} />
           ))}
         </div>
-        <div className="border self-center gap-4 flex max-w-full my-12 py-8 px-6 rounded-xl border-solid border-indigo-800">
-          <div className="flex flex-col">
-            <div className="text-neutral-300 text-xl font-medium">
-              event begins in:
-            </div>
-            <div className="text-white text-4xl whitespace-nowrap mt-5">
-              12 : 54 : 33
-            </div>
-          </div>
-          <PiHourglassLight
-            size={60}
-            className="stroke-1 ml-6 text-indigo-700"
-          />
-        </div>
+        <Countdown time={1702537594462} />
       </div>
     </div>
   );
