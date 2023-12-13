@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import Link from "next/link";
 import { FC } from "react";
 import { IoFlashOutline } from "react-icons/io5";
@@ -181,7 +182,7 @@ const Card: FC<Props> = ({ event }) => {
   return (
     <div className="bg-zinc-300 bg-opacity-0 flex grow flex-col overflow-hidden rounded-3xl border-2 border-solid border-emerald-400 items-start">
       <div className="text-neutral-300 mt-4 px-3 py-2 font-light">
-        Joined Nov, 2019
+        Joined {format(event.start, "MMM, yyyy")}
       </div>
       <div className="flex px-3 justify-between gap-3">
         <div className="rounded-full h-16 w-16 overflow-hidden">
