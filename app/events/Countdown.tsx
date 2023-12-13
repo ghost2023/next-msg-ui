@@ -21,7 +21,7 @@ const Countdown: FC<Props> = ({ time }) => {
   }, [time]);
 
   return (
-    <div className="border self-center gap-4 flex max-w-full my-12 py-8 px-6 rounded-xl border-solid border-indigo-800">
+    <div className="border self-center gap-16 flex max-w-full my-12 py-8 px-6 rounded-xl border-solid border-indigo-800 from-indigo-900/20 to-transparent to-90% bg-gradient-to-r">
       <div className="flex flex-col">
         <div className="text-neutral-300 text-xl font-medium">
           event begins in:

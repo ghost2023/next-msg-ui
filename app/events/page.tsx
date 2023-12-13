@@ -3,7 +3,6 @@ import Link from "next/link";
 import { FC } from "react";
 import { IoFlashOutline } from "react-icons/io5";
 import { LuMessagesSquare } from "react-icons/lu";
-import { PiHourglassLight } from "react-icons/pi";
 import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { TbZodiacGemini } from "react-icons/tb";
 import Countdown from "./Countdown";
@@ -53,7 +52,7 @@ const Page = () => {
         </div>
         <div className="gap-7 flex mt-14">
           {/* the card 1 */}
-          <div className="border flex grow flex-col w-full p-10 rounded-xl border-solid border-indigo-800">
+          <div className="border flex grow flex-col w-full p-10 from-indigo-800/20 to-transparent to-70% bg-gradient-to-r rounded-xl border-solid border-indigo-800">
             <div className="flex justify-between items-end">
               <div className="text-white text-2xl font-medium mb-1 grow shrink basis-auto">
                 Weekly Thrills.
@@ -69,7 +68,7 @@ const Page = () => {
           </div>
 
           {/* the card 1 */}
-          <div className="border flex grow flex-col w-full p-10 rounded-xl border-solid border-indigo-800">
+          <div className="border flex grow flex-col w-full p-10 from-indigo-800/20 to-transparent to-70% bg-gradient-to-bl rounded-xl border-solid border-indigo-800">
             <div className="gap-5 flex justify-between items-end">
               <div className="text-white text-2xl mb-1 font-medium">
                 Challenge the Norm.
@@ -93,7 +92,7 @@ const Page = () => {
           </Link>
         </div>
         <div className="gap-7 flex">
-          <div className="border flex grow flex-col  w-full p-10 rounded-xl border-solid border-indigo-800">
+          <div className="border flex grow flex-col w-full p-10 from-indigo-800/20 to-transparent to-70% bg-gradient-to-t rounded-xl border-solid border-indigo-800">
             <div className="gap-5 flex justify-between items-end">
               <div className="text-white text-2xl mb-1 font-medium">
                 Engage with Elite Auditors.
@@ -110,7 +109,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="border flex grow flex-col  w-full p-10 rounded-xl border-solid border-indigo-800">
+          <div className="border flex grow flex-col w-full p-10 from-indigo-800/20 to-transparent to-70% bg-gradient-to-l rounded-xl border-solid border-indigo-800">
             <div className="gap-5 flex justify-between items-end">
               <div className="text-white text-2xl mb-1 font-medium">
                 Fan-Fueled Fun!
