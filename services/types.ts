@@ -35,3 +35,15 @@ export type Challenge = {
     avatar: string;
   };
 };
+
+export type Hack = {
+  name: string;
+  moneyMin: number;
+  moneyMax: number;
+  startTime: Date;
+  endTime: Date;
+  author: {
+    name: string;
+    avatar: string;
+  };
+};
