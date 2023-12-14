@@ -47,3 +47,11 @@ export type Hack = {
     avatar: string;
   };
 };
+
+export type Auditor = {
+  name: string;
+  img: string;
+  rating: number;
+  auditConducted: string;
+  description: string;
+} & ({ isOnline: true } | { isOnline: false; lastOnline: Date });
