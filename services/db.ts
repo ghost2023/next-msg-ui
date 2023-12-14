@@ -1,4 +1,4 @@
-import { Challenge, Conversation, Hack, Message, User } from "./types";
+import { Auditor, Challenge, Conversation, Hack, Message, User } from "./types";
 
 export const users: User[] = [
   {
@@ -287,4 +287,50 @@ const hacks: Hack[] = [
   },
 ];
 
-export const getHacks = async () => { console.log('fetching');return hacks};
+export const getHacks = async () => {
+  console.log("fetching");
+  return hacks;
+};
+
+const auditors: Auditor[] = [
+  {
+    name: "Auditor 1",
+    img: "https://i.pravatar.cc/300",
+    rating: 4.5,
+    auditConducted: "Audit Type A",
+    description: "Experienced auditor",
+    isOnline: true,
+  },
+  {
+    name: "Auditor 2",
+    img: "https://i.pravatar.cc/300",
+    rating: 3.8,
+    auditConducted: "Audit Type B",
+    description: "Detail-oriented auditor",
+    isOnline: false,
+    lastOnline: new Date("2023-01-15T08:30:00Z"),
+  },
+  {
+    name: "Auditor 3",
+    img: "https://i.pravatar.cc/300",
+    rating: 4.2,
+    auditConducted: "Audit Type C",
+    description: "Knowledgeable auditor",
+    isOnline: true,
+  },
+  {
+    name: "Auditor 4",
+    img: "https://i.pravatar.cc/300",
+    rating: 4.0,
+    auditConducted: "Audit Type D",
+    description: "Certified auditor",
+    isOnline: false,
+    lastOnline: new Date("2023-01-14T14:45:00Z"),
+  },
+];
+
+export const getAuditors = async (q: string | undefined) => {
+  return q
+    ? auditors.filter((i) => i.name.toLowerCase().includes(q.toLowerCase()))
+    : auditors;
+};
