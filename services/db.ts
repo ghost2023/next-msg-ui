@@ -1,4 +1,4 @@
-import { Challenge, Conversation, Message, User } from "./types";
+import { Challenge, Conversation, Hack, Message, User } from "./types";
 
 export const users: User[] = [
   {
@@ -228,3 +228,63 @@ export function getChallengeHistory(): Promise<Challenge[]> {
     }, 1000);
   });
 }
+
+const hacks: Hack[] = [
+  {
+    name: "Hack 1",
+    moneyMin: 100,
+    moneyMax: 200,
+    startTime: new Date(),
+    endTime: new Date(),
+    author: {
+      name: "Jane Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    name: "Hack 2",
+    moneyMin: 200,
+    moneyMax: 300,
+    startTime: new Date(),
+    endTime: new Date(),
+    author: {
+      name: "John Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    name: "Hack 3",
+    moneyMin: 300,
+    moneyMax: 400,
+    startTime: new Date(),
+    endTime: new Date(),
+    author: {
+      name: "Jack Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    name: "Hack 4",
+    moneyMin: 400,
+    moneyMax: 500,
+    startTime: new Date(),
+    endTime: new Date(),
+    author: {
+      name: "Jill Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+  {
+    name: "Hack 5",
+    moneyMin: 500,
+    moneyMax: 600,
+    startTime: new Date(),
+    endTime: new Date(),
+    author: {
+      name: "Jim Doe",
+      avatar: "https://i.pravatar.cc/300",
+    },
+  },
+];
+
+export const getHacks = async () => { console.log('fetching');return hacks};
