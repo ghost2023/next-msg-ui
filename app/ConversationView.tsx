@@ -1,15 +1,11 @@
 "use client";
 
-import {
-  currentUser,
-  deleteMessage,
-  editMessage,
-  getMessages,
-  sendMessage,
-} from "@/services/db";
-import { Conversation } from "@/services/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMessages, users } from "@/services/db";
+import { Conversation, Message } from "@/services/types";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import io from "socket.io-client";
 import MessageCard from "./Message";
 import MessageInput from "./MessageInput";
 
@@ -17,50 +13,48 @@ type Props = {
   conversation: Conversation;
 };
 
+const socket = io("http://localhost:5000");
 export default function ConversationView({ conversation }: Props) {
-  const { data, status } = useQuery({
-    queryKey: ["messages", conversation.id],
-    queryFn: () => getMessages(conversation.id),
-  });
+  const [status, setStatus] = useState<"success" | "error" | "loading">(
+    "loading",
+  );
+  const [msgs, setMsgs] = useState<Message[]>([]);
   const queryClient = useQueryClient();
   const [edittingMessage, setEditMessage] = useState<string>();
   const [replyMessage, setReplyMessage] = useState<string>();
   const [msgContent, setMsgContent] = useState("");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const sendMutation = useMutation({
-    mutationFn: sendMessage,
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData(
-        ["messages", conversation.id],
-        [variables, ...(data ?? [])],
-      );
-    },
-  });
-  const delMutation = useMutation({
-    mutationFn: deleteMessage,
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData(
-        ["messages", conversation.id],
-        (data ?? []).map((m) =>
-          m.id != variables
-            ? m
-            : { ...m, isDeleted: true, content: "Deleted Message" },
-        ),
-      );
-    },
-  });
-  const editMutation = useMutation({
-    mutationFn: editMessage,
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData(
-        ["messages", conversation.id],
-        (data ?? []).map((m) =>
-          m.id != variables.msgId ? m : { ...m, content: variables.content },
-        ),
-      );
-    },
-  });
+  // for testingpurposes
+  const params = useSearchParams();
+  const currentUser =
+    params && params.get("uid")
+      ? users.find((u) => u.id == params?.get("uid")) ?? users[0]
+      : users[0];
+
+  useEffect(() => {
+    getMessages(conversation.id).then((msg) => {
+      setMsgs(msg);
+      setStatus("success");
+    });
+
+    socket.emit("join_conversation", conversation.id);
+
+    socket.on("msg-receive", (msg: Message) => {
+      console.log(msg, "res");
+
+      setMsgs((msgs) => {
+        // solving react renders and avoiding dups
+        if (!msgs.find((i) => JSON.stringify(i) == JSON.stringify(msg)))
+          return [{ ...msg, timestamp: new Date(msg.timestamp) }, ...msgs];
+        return msgs;
+      });
+    });
+
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+  }, [socket]);
 
   useEffect(() => {
     // Scroll to the bottom when the component mounts
@@ -73,21 +67,29 @@ export default function ConversationView({ conversation }: Props) {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
+    // editing the existing message
     if (edittingMessage) {
-      editMutation.mutate({
-        msgId: edittingMessage,
-        content: msgContent,
-      });
+      socket.emit(
+        "msg-edit",
+        {
+          msgId: edittingMessage,
+          content: msgContent,
+        },
+        conversation.id,
+      );
     } else {
-      sendMutation.mutate({
-        sender: currentUser.id,
+      const msg = {
+        sender: params?.get("uid") || currentUser.id,
         id: Date.now().toString(),
         read: false,
         timestamp: new Date(),
         replyTo: replyMessage,
         content: msgContent,
         conversationId: conversation.id,
-      });
+      };
+      console.log(msg);
+      socket.emit("msg-send", msg);
+      setMsgs((msgs) => [msg, ...msgs]);
     }
     setMsgContent("");
     setEditMessage(undefined);
@@ -123,7 +125,7 @@ export default function ConversationView({ conversation }: Props) {
       >
         <div className="w-full flex flex-col-reverse py-3">
           {status == "success" ? (
-            data.map((msg) => (
+            msgs.map((msg) => (
               <MessageCard
                 key={msg.id}
                 message={msg}
@@ -133,10 +135,8 @@ export default function ConversationView({ conversation }: Props) {
                   setMsgContent(msg.content);
                 }}
                 onPin={() => {}}
-                onDelete={() => {
-                  delMutation.mutate(msg.id);
-                }}
-                replyTo={data.find((m) => m.id == msg.replyTo)}
+                onDelete={() => {}}
+                replyTo={msgs.find((m) => m.id == msg.replyTo)}
               />
             ))
           ) : (
@@ -150,8 +150,8 @@ export default function ConversationView({ conversation }: Props) {
         handleSubmit={handleSubmit}
         msgContent={msgContent}
         setMsgContent={setMsgContent}
-        editing={data?.find((m) => m.id == edittingMessage)}
-        replyingTo={data?.find((m) => m.id == replyMessage)}
+        editing={msgs.find((m) => m.id == edittingMessage)}
+        replyingTo={msgs.find((m) => m.id == replyMessage)}
         onCancel={() => {
           setEditMessage(undefined);
           setReplyMessage(undefined);
