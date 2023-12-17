@@ -5,9 +5,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { currentUser } from "@/services/db";
+import { users } from "@/services/db";
 import { Message } from "@/services/types";
 import { format } from "date-fns";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaReply } from "react-icons/fa";
@@ -30,6 +31,12 @@ const MessageCard: React.FC<Props> = ({
   onPin,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const params = useSearchParams();
+  const currentUser =
+    params && params.get("uid")
+      ? users.find((u) => u.id == params?.get("uid")) ?? users[0]
+      : users[0];
 
   if (message.isDeleted && message.sender == currentUser.id) {
     return null;
